@@ -19,9 +19,9 @@ using namespace std;
 #define BLOCK_SIZE2 64
 #define BLOCK_SIZEGPU blockDim.x
 
-void printvec(vector<uint> &a,ofstream &outstr);
+void printvec(vector<uint> &a,ofstream &outstr, int m);
 
-void printmap(map<pair<int,int>,vector<uint>> &v, ofstream &outstr);
+void printmap(map<pair<int,int>,vector<uint>> &mp, ofstream &outstr, int m);
 
 int givint(char *buffer);
 

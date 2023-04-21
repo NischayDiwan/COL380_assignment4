@@ -1,15 +1,17 @@
 #include "matrix.h"
 
-void printvec(vector<uint> &a,ofstream &outstr){
-   	for(int i=0; i < a.size(); i++)
-		outstr << a.at(i) << " ";
-	outstr << endl;
+void printvec(vector<uint> &a,ofstream &outstr, int m){
+	for(int i = 0;i < a.size()/m;i++){
+		for(int j=0; j < m; j++)
+			outstr << a[i*m + j] << " ";
+		outstr << endl;
+	}
 }
 
-void printmap(map<pair<int,int>,vector<uint>> &m, ofstream &outstr){
-	for(auto i = m.begin(); i != m.end(); i++){
+void printmap(map<pair<int,int>,vector<uint>> &mp, ofstream &outstr, int m){
+	for(auto i = mp.begin(); i != mp.end(); i++){
 		outstr << i->first.first << "," << i->first.second << ":\n";
-		printvec((i->second),outstr);
+		printvec((i->second),outstr,m);
 	}
 }
 

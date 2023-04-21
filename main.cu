@@ -90,7 +90,9 @@ int main(int argc, char const *argv[])
 
 	// readable output
     myFile.open("Mat.txt");
-    printmap(outMap,myFile);
+	printmap(inMapA,myFile,m);
+	printmap(inMapB,myFile,m);
+    printmap(outMap,myFile,m);
 	myFile.close();
 
     cout << "Writing output" << endl;

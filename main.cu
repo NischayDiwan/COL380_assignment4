@@ -8,6 +8,11 @@ int main(int argc, char const *argv[])
 
 	// int thrds = 8;
 	std::ofstream myFile;
+	myFile.open("Mat.txt");
+	chrono::time_point<std::chrono::system_clock> start, end;
+	chrono::duration<double> elapsed_seconds;
+	start = chrono::system_clock::now();
+	
 	if(argc == 4){
 		inputA = argv[1];
 		inputB = argv[2];
@@ -85,15 +90,49 @@ int main(int argc, char const *argv[])
 	fileB.close();
     cout << "Input reading done, k values: " << inMapA.size() << " and " << inMapB.size() << endl;
 
-    std::map<pair<int,int>,vector<uint>> outMap;
-	matMul(inMapA, inMapB, n, m, k1, k2, outMap);
+	vector<pair<int,int>> keysa;
+	for(auto i = inMapA.begin(); i != inMapA.end(); i++){
+		keysa.push_back(i->first);
+	}
+	vector<uint> vala;
+	for(auto i = inMapA.begin(); i != inMapA.end(); i++){
+		vala.insert(vala.end(),i->second.begin(),i->second.end());
+	}
+	vector<pair<int,int>> keysb;
+	for(auto i = inMapB.begin(); i != inMapB.end(); i++){
+		keysb.push_back(i->first);
+	}
+	vector<uint> valb;
+	for(auto i = inMapB.begin(); i != inMapB.end(); i++){
+		valb.insert(valb.end(),i->second.begin(),i->second.end());
+	}
+	assert(keysa.size() == vala.size()/m/m);
+	assert(keysb.size() == valb.size()/m/m);
+	assert(keysa.size() == k1);
+	assert(keysb.size() == k2);
+	inMapA.clear();
+	inMapB.clear();
 
+	end = chrono::system_clock::now();
+	elapsed_seconds = end-start;
+	std::cout << "Map to vector conversion: " << elapsed_seconds.count() << endl;
+
+	vector<pair<int,int>> keysc;
+	vector<uint> valc;
+	matMul(keysa, vala, keysb, valb, n, m, keysc, valc, myFile);
+	end = chrono::system_clock::now();
+	elapsed_seconds = end-start;
+	std::cout << "Time taken for matrix multiplication: " << elapsed_seconds.count() << endl;
+
+
+	std::map<pair<int,int>,vector<uint>> outMap;
+	for (int i = 0; i < keysc.size(); ++i){
+		outMap[keysc[i]] = vector<uint>(valc.begin()+i*m*m,valc.begin()+(i+1)*m*m);
+	}
 	// readable output
-    myFile.open("Mat.txt");
-	printmap(inMapA,myFile,m);
-	printmap(inMapB,myFile,m);
-    printmap(outMap,myFile,m);
-	myFile.close();
+	// printmap(inMapA,myFile,m);
+	// printmap(inMapB,myFile,m);
+    // printmap(outMap,myFile,m);
 
     cout << "Writing output" << endl;
     outC.write((char *)&n,4);
@@ -119,5 +158,6 @@ int main(int argc, char const *argv[])
     outC.write((char *)&kout,4);
     cout << "Writing done" << endl;
     outC.close();
+	myFile.close();
 	return 0;
 }

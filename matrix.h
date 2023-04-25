@@ -6,11 +6,10 @@
 #include <thrust/fill.h>
 #include <thrust/replace.h>
 #include <thrust/functional.h>
-#include <iostream>
-#include <fstream>
-#include <vector>
-#include <map>
-#include <utility>
+#include <cuda.h>
+#include <cuda_runtime.h>
+#include <bits/stdc++.h>
+#include <chrono>
 
 using namespace std;
 
@@ -25,14 +24,16 @@ void printmap(map<pair<int,int>,vector<uint>> &mp, ofstream &outstr, int m);
 
 int givint(char *buffer);
 
-void inline transpose(vector<uint> &a,vector<uint> &b, int m);
+int binSearch(vector<pair<int,int>> &v, pair<int,int> p);
 
-void inline blockOuter(vector<uint> &v1,vector<uint> &v2, vector<uint> &r, int m);
+// void inline transpose(vector<uint> &a,vector<uint> &b, int m);
 
-void inline blockInner(vector<uint> &v1,vector<uint> &v2, vector<uint> &r, int m);
+// bool inline isZero(vector<uint> &v);
 
-bool inline isZero(vector<uint> &v);
+// void inline blockOuter(vector<uint> &v1,vector<uint> &v2, vector<uint> &r, int m);
 
-__global__ void matMulGPU(void);
+// void inline blockInner(vector<uint> &v1,vector<uint> &v2, vector<uint> &r, int m);
 
-void matMul(map<pair<int,int>,vector<uint>> &mp1, map<pair<int,int>,vector<uint>> &mp2, int n, int m, int k1, int k2, map<pair<int,int>,vector<uint>> &resm);
+// void inline blockGPUmul(vector<uint> &v1,vector<uint> &v2, vector<uint> &r, int m);
+
+void matMul(vector<pair<int,int>> &mp1, vector<uint> &blksA, vector<pair<int,int>> &mp2, vector<uint> &blksB,  int n, int m, vector<pair<int,int>> &resm, vector<uint> &blksC, ofstream &outstr);

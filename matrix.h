@@ -28,14 +28,4 @@ int binSearch(vector<pair<int,int>> &v, pair<int,int> p);
 
 bool isZero(uint *v, int l);
 
-// int binASearch(int *v, int l, array<int,2> p);
-
-// void inline transpose(vector<uint> &a,vector<uint> &b, int m);
-
-// void inline blockOuter(vector<uint> &v1,vector<uint> &v2, vector<uint> &r, int m);
-
-// void inline blockInner(vector<uint> &v1,vector<uint> &v2, vector<uint> &r, int m);
-
-// void inline blockGPUmul(vector<uint> &v1,vector<uint> &v2, vector<uint> &r, int m);
-
 void matMul(vector<pair<int,int>> &mp1, vector<uint> &blksA, vector<pair<int,int>> &mp2, vector<uint> &blksB,  int n, int m, vector<pair<int,int>> &resm, vector<uint> &blksC, ofstream &outstr);

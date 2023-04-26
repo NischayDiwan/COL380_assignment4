@@ -1,11 +1,3 @@
-#include <thrust/host_vector.h>
-#include <thrust/device_vector.h>
-#include <thrust/transform.h>
-#include <thrust/sequence.h>
-#include <thrust/copy.h>
-#include <thrust/fill.h>
-#include <thrust/replace.h>
-#include <thrust/functional.h>
 #include <cuda.h>
 #include <cuda_runtime.h>
 #include <bits/stdc++.h>
@@ -20,12 +12,10 @@ using namespace std;
 
 void printvec(vector<uint> &a,ofstream &outstr, int m);
 
-void printmap(map<pair<int,int>,vector<uint>> &mp, ofstream &outstr, int m);
-
 int givint(char *buffer);
 
 int binSearch(vector<pair<int,int>> &v, pair<int,int> p);
 
 bool isZero(uint *v, int l);
 
-void matMul(vector<pair<int,int>> &mp1, vector<uint> &blksA, vector<pair<int,int>> &mp2, vector<uint> &blksB,  int n, int m, vector<pair<int,int>> &resm, vector<uint> &blksC, ofstream &outstr);
+void matMul(vector<pair<int,int>> &mp1, vector<uint> &blksA, vector<pair<int,int>> &mp2, vector<uint> &blksB,  int n, int m, vector<uint> &blksC);

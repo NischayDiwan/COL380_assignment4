@@ -1,17 +1,12 @@
 #include "matrix.h"
 
+#define timer 0
+
 void printvec(vector<uint> &a,ofstream &outstr, int m){
 	for(int i = 0;i < a.size()/m;i++){
 		for(int j=0; j < m; j++)
 			outstr << a[i*m + j] << " ";
 		outstr << endl;
-	}
-}
-
-void printmap(map<pair<int,int>,vector<uint>> &mp, ofstream &outstr, int m){
-	for(auto i = mp.begin(); i != mp.end(); i++){
-		outstr << i->first.first << "," << i->first.second << ":\n";
-		printvec((i->second),outstr,m);
 	}
 }
 
@@ -61,36 +56,6 @@ int binASearch(int *v, int l, int p1, int p2){
 	return -1;
 }
 
-// void inline transpose(vector<uint> &a,vector<uint> &b, int m){
-// 	for(int i=0; i < m; i++){
-// 		for(int j=0; j < m; j++){
-// 			b[i*m + j] = a[j *m + i];
-// 		}
-// 	}
-// }
-
-// void inline blockOuter(vector<uint> &v1,vector<uint> &v2, vector<uint> &r, int m){
-// 	for (int i = 0; i < v1.size(); ++i)
-// 	{	
-// 		r[i] = v1[i] + v2[i];
-// 	}
-// }
-
-// void inline blockInner(vector<uint> &v1,vector<uint> &v2, vector<uint> &r, int m){
-// 	for (int i = 0; i < m; ++i)
-// 	{	
-// 		for (int j = 0; j < m; ++j)
-// 		{
-// 			uint temp = 0;
-// 			for (int k = 0; k < m; ++k)
-// 			{
-// 				temp = temp + (v1[i*m + k] * v2[k*m + j]);
-// 			}
-// 			r[i*m + j] = temp;
-// 		}
-// 	}
-// }
-
 __global__
 void matMulGPU(uint *a, uint *b, uint *c, int *ka, int *kb, int *rof, int *col, int m, int n, int k1, int k2){
 	extern __shared__ uint dab[];
@@ -101,8 +66,7 @@ void matMulGPU(uint *a, uint *b, uint *c, int *ka, int *kb, int *rof, int *col, 
 	int k = bid % nm;
 	// int gtid = bid*blockDim.x + tid;
 	uint temp = 0;
-	for (int j = rof[i]; j < rof[i+1]; j++)
-	{
+	for (int j = rof[i]; j < rof[i+1]; j++){
 		// int id1 = binASearch(ka,k1,i,j);
 		int id1 = j;
 		int id2 = binASearch(kb,k2,col[id1],k);
@@ -123,18 +87,17 @@ void matMulGPU(uint *a, uint *b, uint *c, int *ka, int *kb, int *rof, int *col, 
 	c[tid + i*m*n + k*m*m] = temp;
 }
 
-void matMul(vector<pair<int,int>> &mp1, vector<uint> &blksA, vector<pair<int,int>> &mp2, vector<uint> &blksB,  int n, int m, vector<pair<int,int>> &resm, vector<uint> &blksC, ofstream &outstr){
+void matMul(vector<pair<int,int>> &mp1, vector<uint> &blksA, vector<pair<int,int>> &mp2, vector<uint> &blksB,  int n, int m, vector<uint> &blksC){
 	int nm = n/m;
 
 	// sending data to GPU
 	int streamSize = 6;
 	cudaStream_t stream[streamSize];
-	// cudaError_t result[2];
 	for(int i = 0;i<streamSize ;i++){
 		cudaStreamCreate(&stream[i]);
 	}
 	int size = sizeof(uint);
-	uint *a = &blksA[0], *b = &blksB[0], *c = new uint[n*n]();
+	uint *a = &blksA[0], *b = &blksB[0], *c = &blksC[0];
 	uint *da, *db, *dc;
 	cudaMalloc(&da,size*blksA.size());
 	cudaMalloc(&db,size*blksB.size());
@@ -173,42 +136,35 @@ void matMul(vector<pair<int,int>> &mp1, vector<uint> &blksA, vector<pair<int,int
 	cudaMalloc(&col,colV.size()*sizeof(int));
 	cudaMemcpyAsync(rof,&rofV[0],rofV.size()*sizeof(int),cudaMemcpyHostToDevice,stream[4]);
 	cudaMemcpyAsync(col,&colV[0],colV.size()*sizeof(int),cudaMemcpyHostToDevice,stream[5]);
-
-	cudaDeviceSynchronize();
-	// std::cout << "gpu multiplication start\n";
-	chrono::time_point<std::chrono::system_clock> startg = std::chrono::system_clock::now();
-	// core matrix multiplication
-	matMulGPU<<<nm*nm,m*m,2*size*m*m>>>(da,db,dc,ka,kb,rof,col,m,n,mp1.size(),mp2.size()); // i X k
-
-	// cudaDeviceSynchronize();
-	// std::cout << "gpu multiplication done\n";
-	chrono::time_point<std::chrono::system_clock> endg = std::chrono::system_clock::now();
-	chrono::duration<double> elapsed_secondsg = endg-startg;
-	std::cout << "gpu multiplication time: " << elapsed_secondsg.count() << "s\n";
-	cudaMemcpy(c,dc,size*n*n,cudaMemcpyDeviceToHost);
 	
-	for(int i = 0; i < nm; ++i)
-	{	
-		for (int k = 0; k < nm; ++k)
-		{
-			vector<uint> vtemp(c+(i*nm + k)*m*m,c+(i*nm + k + 1)*m*m);
-			if(!isZero(&vtemp[0],m*m)){
-				pair<int,int> ptemp = {i,k};
-				resm.push_back(ptemp);
-				blksC.insert(blksC.end(),vtemp.begin(),vtemp.end());
-			}
-		}
+	if(timer){
+		cudaDeviceSynchronize();
+		chrono::time_point<std::chrono::system_clock> startg = std::chrono::system_clock::now();
+		matMulGPU<<<nm*nm,m*m,2*size*m*m>>>(da,db,dc,ka,kb,rof,col,m,n,mp1.size(),mp2.size()); // i X k
+		cudaDeviceSynchronize();
+		chrono::time_point<std::chrono::system_clock> endg = std::chrono::system_clock::now();
+		chrono::duration<double> elapsed_secondsg = endg-startg;
+		std::cout << "gpu multiplication time: " << elapsed_secondsg.count() << "s\n";
+	}else{
+		cudaDeviceSynchronize();
+		matMulGPU<<<nm*nm,m*m,2*size*m*m>>>(da,db,dc,ka,kb,rof,col,m,n,mp1.size(),mp2.size()); // i X k
 	}
 
+	int chunk = n*n/4;
+	cudaMemcpyAsync(c,dc,chunk*size,cudaMemcpyDeviceToHost,stream[0]);
+	cudaMemcpyAsync(c+chunk,dc+chunk,size*chunk,cudaMemcpyDeviceToHost,stream[1]);
+	cudaMemcpyAsync(c+2*chunk,dc+2*chunk,size*chunk,cudaMemcpyDeviceToHost,stream[2]);
+	cudaMemcpyAsync(c+3*chunk,dc+3*chunk,size*chunk,cudaMemcpyDeviceToHost,stream[3]);
+	cudaDeviceSynchronize();
+
 	// free the memory
-	delete c;
 	cudaFree(da);
 	cudaFree(db);
-	cudaFree(dc);
 	cudaFree(ka);
 	cudaFree(kb);
 	cudaFree(rof);
 	cudaFree(col);
+	cudaFree(dc);
 	for(int i = 0;i<streamSize ;i++){
 		cudaStreamDestroy(stream[i]);
 	}

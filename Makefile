@@ -14,4 +14,4 @@ run: exec
 	$(CC) $(CFLAGS) -c $<
 
 clean:
-	rm *.o exec outFile.bin Mat.txt
+	rm -f *.o exec outFile.bin Mat.txt

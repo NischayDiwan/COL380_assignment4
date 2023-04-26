@@ -7,8 +7,8 @@ int main(int argc, char const *argv[])
 	string outputC = "";
 
 	// int thrds = 8;
-	std::ofstream myFile;
-	myFile.open("Mat.txt");
+	// std::ofstream myFile;
+	// myFile.open("Mat.txt");
 	chrono::time_point<std::chrono::system_clock> start, end;
 	chrono::duration<double> elapsed_seconds;
 	start = chrono::system_clock::now();
@@ -117,49 +117,46 @@ int main(int argc, char const *argv[])
 	elapsed_seconds = end-start;
 	std::cout << "Map to vector conversion: " << elapsed_seconds.count() << endl;
 
-	vector<pair<int,int>> keysc;
-	vector<uint> valc;
-	matMul(keysa, vala, keysb, valb, n, m, keysc, valc, myFile);
+	// vector<pair<int,int>> keysc;
+	vector<uint> valc(n*n,0);
+	start = chrono::system_clock::now();
+	matMul(keysa, vala, keysb, valb, n, m, valc);
 	end = chrono::system_clock::now();
 	elapsed_seconds = end-start;
 	std::cout << "Time taken for matrix multiplication: " << elapsed_seconds.count() << endl;
 
-
-	std::map<pair<int,int>,vector<uint>> outMap;
-	for (int i = 0; i < keysc.size(); ++i){
-		outMap[keysc[i]] = vector<uint>(valc.begin()+i*m*m,valc.begin()+(i+1)*m*m);
-	}
-	keysc.clear();
-	valc.clear();
 	// readable output
-	// printmap(inMapA,myFile,m);
-	// printmap(inMapB,myFile,m);
-    // printmap(outMap,myFile,m);
+	int nm = n/m;
 
     cout << "Writing output" << endl;
     outC.write((char *)&n,4);
     outC.write((char *)&m,4);
     int kout = 0;
     outC.write((char *)&kout,4);
-    for(auto i = outMap.begin(); i != outMap.end(); i++){
-	    int aout = i->first.first;
-	    outC.write((char *)&aout,4);
-	    int bout = i->first.second;
-	    outC.write((char *)&bout,4);
-	    for (int j = 0; j < m; ++j){
-		  	for (int h = 0; h < m; ++h){
-			  	uint eout = min(i->second[j*m + h],(uint)MAX_VAL);
-			  	outC.write((char *)&eout,4);
-		  	}
-	    }
-	    kout += 1;
-    }
+	for(int i = 0; i < nm; ++i)
+	{	
+		for (int j = 0; j < nm; ++j)
+		{
+			vector<uint> vtemp(valc.begin()+(i*nm + j)*m*m,valc.begin()+(i*nm + j + 1)*m*m);
+			if(!isZero(&vtemp[0],m*m)){
+				int aout = i;
+				outC.write((char *)&aout,4);
+				int bout = j;
+				outC.write((char *)&bout,4);
+				for (int k = 0; k < m*m; ++k){
+					uint eout = min(vtemp[k],(uint)MAX_VAL);
+					outC.write((char *)&eout,4);
+				}
+				kout += 1;
+			}
+		}
+	}
 
     cout << "Number of output non-zero blocks: " << kout << endl;
     outC.seekp(8);
     outC.write((char *)&kout,4);
     cout << "Writing done" << endl;
     outC.close();
-	myFile.close();
+	// myFile.close();
 	return 0;
 }

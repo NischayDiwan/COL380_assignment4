@@ -129,6 +129,8 @@ int main(int argc, char const *argv[])
 	for (int i = 0; i < keysc.size(); ++i){
 		outMap[keysc[i]] = vector<uint>(valc.begin()+i*m*m,valc.begin()+(i+1)*m*m);
 	}
+	keysc.clear();
+	valc.clear();
 	// readable output
 	// printmap(inMapA,myFile,m);
 	// printmap(inMapB,myFile,m);

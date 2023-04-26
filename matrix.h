@@ -26,9 +26,9 @@ int givint(char *buffer);
 
 int binSearch(vector<pair<int,int>> &v, pair<int,int> p);
 
-int binASearch(int *v, int l, pair<int,int> p);
-
 bool isZero(uint *v, int l);
+
+// int binASearch(int *v, int l, array<int,2> p);
 
 // void inline transpose(vector<uint> &a,vector<uint> &b, int m);
 

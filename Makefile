@@ -14,4 +14,4 @@ run: exec
 	$(CC) $(CFLAGS) -c $<
 
 clean:
-	rm -f *.o exec outFile.bin Mat.txt
+	rm -f *.o exec outFile.bin Mat.txt inputFile1.bin inputFile2.bin

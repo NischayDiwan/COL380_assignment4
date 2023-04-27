@@ -1,5 +1,6 @@
 #include "matrix.h"
 
+using namespace std;
 int main(int argc, char const *argv[])
 {
 	string inputA = "";
@@ -52,7 +53,7 @@ int main(int argc, char const *argv[])
 	int n = n1, m = m1;
 
     std::map<pair<int,int>,vector<uint>> inMapA;
-    for (int i = 0; i < k1; ++i){
+    for (long long i = 0; i < k1; ++i){
 	    fileA.read(buffer1,4);
 	    int a = givint(buffer1);
 	    fileA.read(buffer1,4);
@@ -70,7 +71,7 @@ int main(int argc, char const *argv[])
     }
 	fileA.close();
 	std::map<pair<int,int>,vector<uint>> inMapB;
-	for (int i = 0; i < k2; ++i)
+	for (long long i = 0; i < k2; ++i)
     {
 	    fileB.read(buffer2,4);
 	    int a = givint(buffer2);
@@ -91,21 +92,19 @@ int main(int argc, char const *argv[])
     cout << "Input reading done, k values: " << inMapA.size() << " and " << inMapB.size() << endl;
 
 	vector<pair<int,int>> keysa;
-	for(auto i = inMapA.begin(); i != inMapA.end(); i++){
-		keysa.push_back(i->first);
-	}
 	vector<uint> vala;
 	for(auto i = inMapA.begin(); i != inMapA.end(); i++){
+		keysa.push_back(i->first);
 		vala.insert(vala.end(),i->second.begin(),i->second.end());
 	}
+
 	vector<pair<int,int>> keysb;
-	for(auto i = inMapB.begin(); i != inMapB.end(); i++){
-		keysb.push_back(i->first);
-	}
 	vector<uint> valb;
 	for(auto i = inMapB.begin(); i != inMapB.end(); i++){
+		keysb.push_back(i->first);
 		valb.insert(valb.end(),i->second.begin(),i->second.end());
 	}
+
 	assert(keysa.size() == vala.size()/m/m);
 	assert(keysb.size() == valb.size()/m/m);
 	assert(keysa.size() == k1);
@@ -118,7 +117,7 @@ int main(int argc, char const *argv[])
 	std::cout << "Map to vector conversion: " << elapsed_seconds.count() << endl;
 
 	// vector<pair<int,int>> keysc;
-	vector<uint> valc(n*n,0);
+	vector<uint> valc((size_t)n*(size_t)n,0);
 	start = chrono::system_clock::now();
 	matMul(keysa, vala, keysb, valb, n, m, valc);
 	end = chrono::system_clock::now();
@@ -127,11 +126,10 @@ int main(int argc, char const *argv[])
 
 	// readable output
 	int nm = n/m;
-
     cout << "Writing output" << endl;
     outC.write((char *)&n,4);
     outC.write((char *)&m,4);
-    int kout = 0;
+    long kout = 0;
     outC.write((char *)&kout,4);
 	for(int i = 0; i < nm; ++i)
 	{	

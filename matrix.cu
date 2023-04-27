@@ -1,5 +1,6 @@
 #include "matrix.h"
 
+using namespace std;
 #define timer 0
 
 void printvec(vector<uint> &a,ofstream &outstr, int m){
@@ -64,7 +65,6 @@ void matMulGPU(uint *a, uint *b, uint *c, int *ka, int *kb, int *rof, int *col, 
 	int nm = n/m;
 	int i = bid / nm;
 	int k = bid % nm;
-	// int gtid = bid*blockDim.x + tid;
 	uint temp = 0;
 	for (int j = rof[i]; j < rof[i+1]; j++){
 		// int id1 = binASearch(ka,k1,i,j);
@@ -83,33 +83,42 @@ void matMulGPU(uint *a, uint *b, uint *c, int *ka, int *kb, int *rof, int *col, 
 			}
 			__syncthreads();
 		}
+		__syncthreads();
 	}
+	__syncthreads();
 	c[tid + i*m*n + k*m*m] = temp;
+
+	// if(temp != 0)
+	// 	printf("%d\n",c[tid + i*m*n + k*m*m]);
 }
 
-void matMul(vector<pair<int,int>> &mp1, vector<uint> &blksA, vector<pair<int,int>> &mp2, vector<uint> &blksB,  int n, int m, vector<uint> &blksC){
-	int nm = n/m;
+void matMul(vector<pair<int,int>> &mp1, vector<uint> &blksA, vector<pair<int,int>> &mp2, vector<uint> &blksB,  long long n, long long m, vector<uint> &blksC){
+	long long nm = n/m;
 
 	// sending data to GPU
 	int streamSize = 6;
+	cudaError_t err;
 	cudaStream_t stream[streamSize];
 	for(int i = 0;i<streamSize ;i++){
 		cudaStreamCreate(&stream[i]);
 	}
-	int size = sizeof(uint);
-	uint *a = &blksA[0], *b = &blksB[0], *c = &blksC[0];
+	size_t size = sizeof(uint);
+	size_t size2 = sizeof(int);
+	size_t size3 = size * n * n;
+	uint *a = blksA.data(), *b = blksB.data(), *c = blksC.data();
 	uint *da, *db, *dc;
 	cudaMalloc(&da,size*blksA.size());
 	cudaMalloc(&db,size*blksB.size());
-	cudaMalloc(&dc,size*n*n);
-	cudaMemset(dc,0,size*n*n);
+	cudaMalloc(&dc,size3);
+	cudaDeviceSynchronize();
+	cudaMemset(dc,0,size3);
 	int *ka, *kb;
-	cudaMalloc(&ka,2*sizeof(int)*mp1.size());
-	cudaMalloc(&kb,2*sizeof(int)*mp2.size());
-	cudaMemcpyAsync(da,a,size*blksA.size(),cudaMemcpyHostToDevice,stream[0]);
-	cudaMemcpyAsync(db,b,size*blksB.size(),cudaMemcpyHostToDevice,stream[1]);
-	cudaMemcpyAsync(ka,&mp1[0],2*sizeof(int)*mp1.size(),cudaMemcpyHostToDevice,stream[2]);
-	cudaMemcpyAsync(kb,&mp2[0],2*sizeof(int)*mp2.size(),cudaMemcpyHostToDevice,stream[3]);
+	cudaMalloc(&ka,(size_t)2*size2*(size_t)mp1.size());
+	cudaMalloc(&kb,(size_t)2*size2*(size_t)mp2.size());
+	cudaMemcpyAsync(da,a,(size_t)size*(size_t)blksA.size(),cudaMemcpyHostToDevice,stream[0]);
+	cudaMemcpyAsync(db,b,(size_t)size*(size_t)blksB.size(),cudaMemcpyHostToDevice,stream[1]);
+	cudaMemcpyAsync(ka,&mp1[0],(size_t)2*size2*(size_t)mp1.size(),cudaMemcpyHostToDevice,stream[2]);
+	cudaMemcpyAsync(kb,&mp2[0],(size_t)2*size2*(size_t)mp2.size(),cudaMemcpyHostToDevice,stream[3]);
 
 	// converting to CSR
 	vector<int> colV;
@@ -132,30 +141,29 @@ void matMul(vector<pair<int,int>> &mp1, vector<uint> &blksA, vector<pair<int,int
 	}
 	// std::cout << "CSR converted\n";
 	int *rof, *col;
-	cudaMalloc(&rof,rofV.size()*sizeof(int));
-	cudaMalloc(&col,colV.size()*sizeof(int));
-	cudaMemcpyAsync(rof,&rofV[0],rofV.size()*sizeof(int),cudaMemcpyHostToDevice,stream[4]);
-	cudaMemcpyAsync(col,&colV[0],colV.size()*sizeof(int),cudaMemcpyHostToDevice,stream[5]);
-	
+	cudaMalloc(&rof,(size_t)rofV.size()*size2);
+	cudaMalloc(&col,(size_t)colV.size()*size2);
+	cudaMemcpyAsync(rof,&rofV[0],(size_t)rofV.size()*size2,cudaMemcpyHostToDevice,stream[4]);
+	cudaMemcpyAsync(col,&colV[0],(size_t)colV.size()*size2,cudaMemcpyHostToDevice,stream[5]);
+
+	int stride = (int)(nm*nm);
 	if(timer){
 		cudaDeviceSynchronize();
 		chrono::time_point<std::chrono::system_clock> startg = std::chrono::system_clock::now();
-		matMulGPU<<<nm*nm,m*m,2*size*m*m>>>(da,db,dc,ka,kb,rof,col,m,n,mp1.size(),mp2.size()); // i X k
+		matMulGPU<<<stride,m*m,2*size*m*m,0>>>(da,db,dc,ka,kb,rof,col,m,n,mp1.size(),mp2.size()); // i X k
 		cudaDeviceSynchronize();
 		chrono::time_point<std::chrono::system_clock> endg = std::chrono::system_clock::now();
 		chrono::duration<double> elapsed_secondsg = endg-startg;
 		std::cout << "gpu multiplication time: " << elapsed_secondsg.count() << "s\n";
 	}else{
 		cudaDeviceSynchronize();
-		matMulGPU<<<nm*nm,m*m,2*size*m*m>>>(da,db,dc,ka,kb,rof,col,m,n,mp1.size(),mp2.size()); // i X k
+		matMulGPU<<<stride,m*m,2*size*m*m,0>>>(da,db,dc,ka,kb,rof,col,m,n,mp1.size(),mp2.size()); // i X k
 	}
 
-	int chunk = n*n/4;
-	cudaMemcpyAsync(c,dc,chunk*size,cudaMemcpyDeviceToHost,stream[0]);
-	cudaMemcpyAsync(c+chunk,dc+chunk,size*chunk,cudaMemcpyDeviceToHost,stream[1]);
-	cudaMemcpyAsync(c+2*chunk,dc+2*chunk,size*chunk,cudaMemcpyDeviceToHost,stream[2]);
-	cudaMemcpyAsync(c+3*chunk,dc+3*chunk,size*chunk,cudaMemcpyDeviceToHost,stream[3]);
 	cudaDeviceSynchronize();
+	err = cudaMemcpy((void *)c,(void *)dc,size3,cudaMemcpyDeviceToHost);
+	if (err != cudaSuccess) 
+	    printf("Error: %s\n", cudaGetErrorString(err));
 
 	// free the memory
 	cudaFree(da);

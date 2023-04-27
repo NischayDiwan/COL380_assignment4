@@ -1,6 +1,5 @@
 #include "matrix.h"
 
-using namespace std;
 int main(int argc, char const *argv[])
 {
 	string inputA = "";
@@ -52,13 +51,19 @@ int main(int argc, char const *argv[])
 	assert(m1 == m2);
 	int n = n1, m = m1;
 
-    std::map<pair<int,int>,vector<uint>> inMapA;
-    for (long long i = 0; i < k1; ++i){
+	vector<array<int,3>> keysa;
+	vector<uint> vala;
+	vector<array<int,3>> keysb;
+	vector<uint> valb;
+
+    // std::map<pair<int,int>,vector<uint>> inMapA;
+    for (int i = 0; i < k1; ++i){
 	    fileA.read(buffer1,4);
 	    int a = givint(buffer1);
 	    fileA.read(buffer1,4);
 	    int b = givint(buffer1);
-	    pair<int,int> pt = {a,b};
+		array<int,3> pt = {a,b,i};
+		keysa.push_back(pt);
 	    vector<uint> vt;
 	    for (int j = 0; j < m; ++j){
 		  	for (int h = 0; h < m; ++h){
@@ -67,17 +72,18 @@ int main(int argc, char const *argv[])
 			    vt.push_back(e);
 		  	}
 	    }
-	    inMapA[pt] = vt; 
+		vala.insert(vala.end(),vt.begin(),vt.end());
     }
 	fileA.close();
-	std::map<pair<int,int>,vector<uint>> inMapB;
-	for (long long i = 0; i < k2; ++i)
+	// std::map<pair<int,int>,vector<uint>> inMapB;
+	for (int i = 0; i < k2; ++i)
     {
 	    fileB.read(buffer2,4);
 	    int a = givint(buffer2);
 	    fileB.read(buffer2,4);
 	    int b = givint(buffer2);
-	    pair<int,int> pt = {a,b};
+		array<int,3> pt = {a,b,i};
+		keysb.push_back(pt);
 	    vector<uint> vt;
 	    for (int j = 0; j < m; ++j){
 		  	for (int h = 0; h < m; ++h){
@@ -86,35 +92,23 @@ int main(int argc, char const *argv[])
 			    vt.push_back(e);
 		  	}
 	    }
-	    inMapB[pt] = vt; 
+		valb.insert(valb.end(),vt.begin(),vt.end());
     }
 	fileB.close();
-    cout << "Input reading done, k values: " << inMapA.size() << " and " << inMapB.size() << endl;
-
-	vector<pair<int,int>> keysa;
-	vector<uint> vala;
-	for(auto i = inMapA.begin(); i != inMapA.end(); i++){
-		keysa.push_back(i->first);
-		vala.insert(vala.end(),i->second.begin(),i->second.end());
-	}
-
-	vector<pair<int,int>> keysb;
-	vector<uint> valb;
-	for(auto i = inMapB.begin(); i != inMapB.end(); i++){
-		keysb.push_back(i->first);
-		valb.insert(valb.end(),i->second.begin(),i->second.end());
-	}
-
+    cout << "Input reading done, k values: " << keysa.size() << " and " << keysb.size() << endl;
+	
+	sort(keysa.begin(), keysa.end());
+	sort(keysb.begin(), keysb.end());
+	
 	assert(keysa.size() == vala.size()/m/m);
 	assert(keysb.size() == valb.size()/m/m);
 	assert(keysa.size() == k1);
 	assert(keysb.size() == k2);
-	inMapA.clear();
-	inMapB.clear();
-
+	// inMapA.clear();
+	// inMapB.clear();
 	end = chrono::system_clock::now();
 	elapsed_seconds = end-start;
-	std::cout << "Map to vector conversion: " << elapsed_seconds.count() << endl;
+	std::cout << "Sorted input: " << elapsed_seconds.count() << endl;
 
 	// vector<pair<int,int>> keysc;
 	vector<uint> valc((size_t)n*(size_t)n,0);
@@ -149,7 +143,6 @@ int main(int argc, char const *argv[])
 			}
 		}
 	}
-
     cout << "Number of output non-zero blocks: " << kout << endl;
     outC.seekp(8);
     outC.write((char *)&kout,4);

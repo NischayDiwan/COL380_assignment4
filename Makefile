@@ -1,7 +1,7 @@
 CC=nvcc
 CFLAGS=--compiler-bindir "/usr/bin/g++-10" -O3 -g 
 
-sources=main.cu matrix.cu
+sources=matrix.cu
 objects=$(sources:.cu=.o)
 
 exec:$(objects)

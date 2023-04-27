@@ -8,12 +8,12 @@
 #define BLOCK_SIZE2 64
 #define BLOCK_SIZEGPU blockDim.x
 
+using namespace std;
+
 void printvec(vector<uint> &a,ofstream &outstr, int m);
 
 int givint(char *buffer);
 
-int binSearch(vector<pair<int,int>> &v, pair<int,int> p);
-
 bool isZero(uint *v, int l);
 
-void matMul(vector<pair<int,int>> &mp1, vector<uint> &blksA, vector<pair<int,int>> &mp2, vector<uint> &blksB, long long n, long long m, vector<uint> &blksC);
+void matMul(vector<array<int,3>> &mp1, vector<uint> &blksA, vector<array<int,3>> &mp2, vector<uint> &blksB, long long n, long long m, vector<uint> &blksC);

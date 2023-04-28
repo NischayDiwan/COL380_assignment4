@@ -10,7 +10,7 @@ exec:$(objects)
 run: exec
 	./exec inputFile1.bin inputFile2.bin outFile.bin
 
-%.o: %.cu matrix.h
+%.o: %.cu
 	$(CC) $(CFLAGS) -c $<
 
 clean:

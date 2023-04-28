@@ -60,7 +60,7 @@ void matMulGPU(uint *a, uint *b, uint *c, int *ka, int *kb, int *rof, int *col, 
 	int nm = n/m;
 	int i = bid / nm;
 	int k = bid % nm;
-	uint temp = 0;
+	uint64_t temp = 0;
 	// if(tid == 0 && bid == 0){
 	// for (int it = 0; it < k1; it++)
 	// {
@@ -89,17 +89,14 @@ void matMulGPU(uint *a, uint *b, uint *c, int *ka, int *kb, int *rof, int *col, 
 			int jj = tid%m;
 			for (int kk = 0; kk < m; ++kk)
 			{
-				temp = temp + (dab[ii*m + kk] * dab[kk*m + jj + m*m]);
+				temp = temp + (uint64_t)(dab[ii*m + kk] * dab[kk*m + jj + m*m]);
 			}
 			__syncthreads();
 		}
 		__syncthreads();
 	}
 	__syncthreads();
-	c[tid + i*m*n + k*m*m] = temp;
-
-	// if(temp != 0)
-	// 	printf("%d\n",c[tid + i*m*n + k*m*m]);
+	c[tid + i*m*n + k*m*m] = min(temp,MAX_VAL);
 }
 
 void matMul(vector<array<int,3>> &mp1, vector<uint> &blksA, vector<array<int,3>> &mp2, vector<uint> &blksB,  long long n, long long m, vector<uint> &blksC){
@@ -154,8 +151,7 @@ void matMul(vector<array<int,3>> &mp1, vector<uint> &blksA, vector<array<int,3>>
 	for(int j = rowno;j<nm;j++){
 		rofV.push_back(blksA.size()/m/m);
 	}
-	// cout << rofV.size() << endl;
-	// cout << colV.size() << endl;
+
 	// std::cout << "CSR converted\n";
 	int *ka;
 	cudaMalloc(&ka,(size_t)size2*(size_t)mp1.size());
@@ -293,7 +289,7 @@ int main(int argc, char const *argv[])
 		valb.insert(valb.end(),vt.begin(),vt.end());
     }
 	fileB.close();
-    cout << "Input reading done, k values: " << keysa.size() << " and " << keysb.size() << endl;
+    cout << "Input reading done, n: " << n << " m: " << m <<  " k values: " << keysa.size() << " and " << keysb.size() << endl;
 	
 	sort(keysa.begin(), keysa.end());
 	sort(keysb.begin(), keysb.end());
@@ -334,7 +330,7 @@ int main(int argc, char const *argv[])
 				int bout = j;
 				outC.write((char *)&bout,4);
 				for (int k = 0; k < m*m; ++k){
-					uint eout = min(vtemp[k],(uint)MAX_VAL);
+					uint eout = vtemp[k];
 					outC.write((char *)&eout,4);
 				}
 				kout += 1;

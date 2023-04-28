@@ -1,0 +1,396 @@
+Input reading done, n: 8192, m: 4, k-values: 50000 and 50000
+Sorted input: 0.126195
+CSR converted
+Time taken for matrix multiplication: 0.440249
+Writing output
+Number of output non-zero blocks: 1058596
+Writing done
+
+real	0m1.606s
+user	0m1.034s
+sys	0m0.402s
+
+Input reading done, n: 8192, m: 8, k-values: 50000 and 50000
+Sorted input: 0.265659
+CSR converted
+Time taken for matrix multiplication: 0.266095
+Writing output
+Number of output non-zero blocks: 946470
+Writing done
+
+real	0m2.869s
+user	0m2.160s
+sys	0m0.581s
+
+Input reading done, n: 8192, m: 8, k-values: 10000 and 10000
+Sorted input: 0.0857766
+CSR converted
+Time taken for matrix multiplication: 0.189336
+Writing output
+Number of output non-zero blocks: 92987
+Writing done
+
+real	0m0.762s
+user	0m0.418s
+sys	0m0.330s
+
+Input reading done, n: 8192, m: 4, k-values: 10000 and 10000
+Sorted input: 0.0203756
+CSR converted
+Time taken for matrix multiplication: 0.193196
+Writing output
+Number of output non-zero blocks: 48529
+Writing done
+
+real	0m0.605s
+user	0m0.337s
+sys	0m0.265s
+
+Namespace(m=4, n=8192, non_zero=100000, output='input1')
+Namespace(m=4, n=8192, non_zero=100000, output='input2')
+Input reading done, n: 8192, m: 4, k-values: 100000 and 100000
+Sorted input: 0.267952
+CSR converted
+Time taken for matrix multiplication: 0.386555
+Writing output
+Number of output non-zero blocks: 2884503
+Writing done
+
+real	0m3.034s
+user	0m2.296s
+sys	0m0.566s
+
+Namespace(m=8, n=8192, non_zero=100000, output='input1')
+Namespace(m=8, n=8192, non_zero=100000, output='input2')
+Input reading done, n: 8192, m: 8, k-values: 100000 and 100000
+Sorted input: 0.547294
+CSR converted
+Time taken for matrix multiplication: 0.352977
+Writing output
+Number of output non-zero blocks: 1048490
+Writing done
+
+real	0m3.533s
+user	0m2.761s
+sys	0m0.623s
+
+Namespace(m=8, n=16384, non_zero=100000, output='input1')
+Namespace(m=8, n=16384, non_zero=100000, output='input2')
+Input reading done, n: 16384, m: 8, k-values: 100000 and 100000
+Sorted input: 0.550605
+CSR converted
+Time taken for matrix multiplication: 0.64062
+Writing output
+Number of output non-zero blocks: 2884896
+Writing done
+
+real	0m9.125s
+user	0m6.986s
+sys	0m1.559s
+
+Namespace(m=4, n=16384, non_zero=100000, output='input1')
+Namespace(m=4, n=16384, non_zero=100000, output='input2')
+Input reading done, n: 16384, m: 4, k-values: 100000 and 100000
+Sorted input: 0.2721
+CSR converted
+Time taken for matrix multiplication: 0.661559
+Writing output
+Number of output non-zero blocks: 2274657
+Writing done
+
+real	0m3.643s
+user	0m2.638s
+sys	0m0.953s
+
+Namespace(m=4, n=16384, non_zero=10000, output='input1')
+Namespace(m=4, n=16384, non_zero=10000, output='input2')
+Input reading done, n: 16384, m: 4, k-values: 10000 and 10000
+Sorted input: 0.0381931
+CSR converted
+Time taken for matrix multiplication: 0.381201
+Writing output
+Number of output non-zero blocks: 24104
+Writing done
+
+real	0m1.804s
+user	0m1.101s
+sys	0m0.702s
+
+Namespace(m=8, n=16384, non_zero=10000, output='input1')
+Namespace(m=8, n=16384, non_zero=10000, output='input2')
+Input reading done, n: 16384, m: 8, k-values: 10000 and 10000
+Sorted input: 0.0554607
+CSR converted
+Time taken for matrix multiplication: 0.372037
+Writing output
+Number of output non-zero blocks: 48862
+Writing done
+
+real	0m1.553s
+user	0m0.874s
+sys	0m0.677s
+
+Namespace(m=8, n=16384, non_zero=50000, output='input1')
+Namespace(m=8, n=16384, non_zero=50000, output='input2')
+Input reading done, n: 16384, m: 8, k-values: 50000 and 50000
+Sorted input: 0.257501
+CSR converted
+Time taken for matrix multiplication: 0.503198
+Writing output
+Number of output non-zero blocks: 1058019
+Writing done
+
+real	0m4.067s
+user	0m2.994s
+sys	0m0.983s
+
+
+Namespace(m=4, n=16384, non_zero=50000, output='input1')
+Namespace(m=4, n=16384, non_zero=50000, output='input2')
+Input reading done, n: 16384, m: 4, k-values: 50000 and 50000
+Sorted input: 0.118674
+CSR converted
+Time taken for matrix multiplication: 0.5052
+Writing output
+Number of output non-zero blocks: 599700
+Writing done
+
+real	0m2.322s
+user	0m1.529s
+sys	0m0.768s
+
+
+Namespace(m=4, n=32768, non_zero=10000, output='input1')
+Namespace(m=4, n=32768, non_zero=10000, output='input2')
+Input reading done, n: 32768, m: 4, k-values: 10000 and 10000
+Sorted input: 0.0226957
+CSR converted
+Time taken for matrix multiplication: 1.26622
+Writing output
+Number of output non-zero blocks: 12383
+Writing done
+
+real	0m6.697s
+user	0m4.377s
+sys	0m2.257s
+
+
+Namespace(m=8, n=32768, non_zero=10000, output='input1')
+Namespace(m=8, n=32768, non_zero=10000, output='input2')
+Input reading done, n: 32768, m: 8, k-values: 10000 and 10000
+Sorted input: 0.0518623
+CSR converted
+Time taken for matrix multiplication: 1.08524
+Writing output
+Number of output non-zero blocks: 24512
+Writing done
+
+real	0m5.139s
+user	0m2.860s
+sys	0m2.279s
+
+
+Namespace(m=8, n=32768, non_zero=50000, output='input1')
+Namespace(m=8, n=32768, non_zero=50000, output='input2')
+Input reading done, n: 32768, m: 8, k-values: 50000 and 50000
+Sorted input: 0.391379
+CSR converted
+Time taken for matrix multiplication: 1.32232
+Writing output
+Number of output non-zero blocks: 599635
+Writing done
+
+real	0m7.139s
+user	0m4.544s
+sys	0m2.520s
+
+Namespace(m=4, n=32768, non_zero=50000, output='input1')
+Namespace(m=4, n=32768, non_zero=50000, output='input2')
+Input reading done, n: 32768, m: 4, k-values: 50000 and 50000
+Sorted input: 0.108985
+CSR converted
+Time taken for matrix multiplication: 1.34376
+Writing output
+Number of output non-zero blocks: 304915
+Writing done
+
+real	0m6.850s
+user	0m4.523s
+sys	0m2.317s
+
+
+Namespace(m=4, n=32768, non_zero=100000, output='input1')
+Namespace(m=4, n=32768, non_zero=100000, output='input2')
+Input reading done, n: 32768, m: 4, k-values: 100000 and 100000
+Sorted input: 0.260277
+CSR converted
+Time taken for matrix multiplication: 1.63899
+Writing output
+Number of output non-zero blocks: 1210830
+Writing done
+
+real	0m8.086s
+user	0m5.567s
+sys	0m2.426s
+
+
+Namespace(m=8, n=32768, non_zero=100000, output='input1')
+Namespace(m=8, n=32768, non_zero=100000, output='input2')
+Input reading done, n: 32768, m: 8, k-values: 100000 and 100000
+Sorted input: 0.584552
+CSR converted
+Time taken for matrix multiplication: 1.58224
+Writing output
+Number of output non-zero blocks: 2268577
+Writing done
+
+real	0m11.659s
+user	0m8.278s
+sys	0m3.080s
+
+
+Input reading done, n: 32768, m: 8, k-values: 8800000 and 8800000
+Sorted input: 50.2979
+==1170== NVPROF is profiling process 1170, command: ./exec input1 input2 outFile.bin
+CSR converted
+Time taken for matrix multiplication: 73.9428
+Writing output
+Number of output non-zero blocks: 16777216
+Writing done
+==1170== Profiling application: ./exec input1 input2 outFile.bin
+==1170== Profiling result:
+            Type  Time(%)      Time     Calls       Avg       Min       Max  Name
+ GPU activities:   97.38%  71.2514s         1  71.2514s  71.2514s  71.2514s  matMulGPU(unsigned int*, unsigned int*, unsigned int*, int*, int*, int*, int*, int*, int*, int, int, int, int)
+                    1.35%  986.72ms         8  123.34ms  3.4560us  479.70ms  [CUDA memcpy HtoD]
+                    1.27%  926.46ms         1  926.46ms  926.46ms  926.46ms  [CUDA memcpy DtoH]
+                    0.01%  7.3874ms         1  7.3874ms  7.3874ms  7.3874ms  [CUDA memset]
+      API calls:   98.18%  72.1783s         1  72.1783s  72.1783s  72.1783s  cudaMemcpy
+                    1.35%  995.15ms         8  124.39ms  20.320us  485.51ms  cudaMemcpyAsync
+                    0.41%  298.98ms         2  149.49ms  3.3510us  298.97ms  cudaStreamCreate
+                    0.04%  31.351ms         7  4.4788ms  7.3040us  10.615ms  cudaFree
+                    0.01%  10.379ms         9  1.1533ms  4.2550us  4.3703ms  cudaMalloc
+                    0.00%  381.67us         1  381.67us  381.67us  381.67us  cuDeviceTotalMem
+                    0.00%  164.09us       101  1.6240us     137ns  69.008us  cuDeviceGetAttribute
+                    0.00%  56.581us         2  28.290us  8.6290us  47.952us  cudaDeviceSynchronize
+                    0.00%  42.429us         1  42.429us  42.429us  42.429us  cudaLaunchKernel
+                    0.00%  38.825us         1  38.825us  38.825us  38.825us  cudaMemset
+                    0.00%  29.269us         1  29.269us  29.269us  29.269us  cuDeviceGetName
+                    0.00%  23.936us         2  11.968us  3.4970us  20.439us  cudaStreamDestroy
+                    0.00%  9.3970us         1  9.3970us  9.3970us  9.3970us  cuDeviceGetPCIBusId
+                    0.00%  1.6910us         3     563ns     274ns  1.1100us  cuDeviceGetCount
+                    0.00%  1.3800us         2     690ns     226ns  1.1540us  cuDeviceGet
+                    0.00%     275ns         1     275ns     275ns     275ns  cuDeviceGetUuid
+
+real	2m50.428s
+user	2m31.280s
+sys	0m15.662s
+
+
+Input reading done, n: 32768, m: 4, k-values: 1000000 and 1000000
+Sorted input: 2.02364
+==386== NVPROF is profiling process 386, command: ./exec input1 input2 outFile.bin
+CSR converted
+Time taken for matrix multiplication: 6.78835
+Writing output
+Number of output non-zero blocks: 56225712
+Writing done
+==386== Profiling application: ./exec input1 input2 outFile.bin
+==386== Profiling result:
+            Type  Time(%)      Time     Calls       Avg       Min       Max  Name
+ GPU activities:   84.08%  5.33634s         1  5.33634s  5.33634s  5.33634s  matMulGPU(unsigned int*, unsigned int*, unsigned int*, int*, int*, int*, int*, int*, int*, int, int, int, int)
+                   15.16%  961.98ms         1  961.98ms  961.98ms  961.98ms  [CUDA memcpy DtoH]
+                    0.47%  29.659ms         8  3.7073ms  4.9920us  13.585ms  [CUDA memcpy HtoD]
+                    0.29%  18.442ms         1  18.442ms  18.442ms  18.442ms  [CUDA memset]
+      API calls:   95.86%  6.29870s         1  6.29870s  6.29870s  6.29870s  cudaMemcpy
+                    3.15%  207.14ms         2  103.57ms  3.6860us  207.13ms  cudaStreamCreate
+                    0.74%  48.943ms         8  6.1179ms  21.123us  31.733ms  cudaMemcpyAsync
+                    0.12%  8.1196ms         7  1.1599ms  6.3680us  4.5655ms  cudaFree
+                    0.10%  6.4531ms         9  717.01us  6.8990us  4.9123ms  cudaMalloc
+                    0.01%  711.94us         2  355.97us  351.97us  359.98us  cuDeviceTotalMem
+                    0.01%  601.26us       202  2.9760us     129ns  133.62us  cuDeviceGetAttribute
+                    0.00%  83.458us         2  41.729us  9.1930us  74.265us  cudaDeviceSynchronize
+                    0.00%  72.175us         2  36.087us  24.986us  47.189us  cuDeviceGetName
+                    0.00%  30.094us         1  30.094us  30.094us  30.094us  cudaMemset
+                    0.00%  28.433us         1  28.433us  28.433us  28.433us  cudaLaunchKernel
+                    0.00%  15.683us         2  7.8410us  3.3400us  12.343us  cudaStreamDestroy
+                    0.00%  8.1140us         2  4.0570us  1.3880us  6.7260us  cuDeviceGetPCIBusId
+                    0.00%  2.2730us         4     568ns     165ns  1.4900us  cuDeviceGet
+                    0.00%  2.1840us         3     728ns     301ns  1.5370us  cuDeviceGetCount
+                    0.00%     493ns         2     246ns     229ns     264ns  cuDeviceGetUuid
+
+real	0m49.730s
+user	0m41.582s
+sys	0m7.030s
+
+Input reading done, n: 32768, m: 4, k-values: 10000000 and 10000000
+Sorted input: 21.1806
+==222== NVPROF is profiling process 222, command: ./exec input1 input2 outFile.bin
+CSR converted
+Time taken for matrix multiplication: 66.5818
+Writing output
+Number of output non-zero blocks: 67108864
+Writing done
+==222== Profiling application: ./exec input1 input2 outFile.bin
+==222== Profiling result:
+            Type  Time(%)      Time     Calls       Avg       Min       Max  Name
+ GPU activities:   98.10%  64.4583s         1  64.4583s  64.4583s  64.4583s  matMulGPU(unsigned int*, unsigned int*, unsigned int*, int*, int*, int*, int*, int*, int*, int, int, int, int)
+                    1.40%  921.59ms         1  921.59ms  921.59ms  921.59ms  [CUDA memcpy DtoH]
+                    0.47%  307.30ms         8  38.413ms  5.7910us  138.32ms  [CUDA memcpy HtoD]
+                    0.03%  18.419ms         1  18.419ms  18.419ms  18.419ms  [CUDA memset]
+      API calls:   98.89%  65.3804s         1  65.3804s  65.3804s  65.3804s  cudaMemcpy
+                    0.58%  386.23ms         2  193.11ms  6.6290us  386.22ms  cudaStreamCreate
+                    0.49%  326.70ms         8  40.837ms  20.126us  156.72ms  cudaMemcpyAsync
+                    0.02%  13.080ms         7  1.8686ms  25.425us  6.7470ms  cudaFree
+                    0.01%  7.6059ms         9  845.10us  5.7630us  4.4642ms  cudaMalloc
+                    0.00%  740.06us         2  370.03us  1.3170us  738.74us  cuDeviceGetPCIBusId
+                    0.00%  723.05us         2  361.52us  344.31us  378.74us  cuDeviceTotalMem
+                    0.00%  550.85us       202  2.7260us     126ns  123.41us  cuDeviceGetAttribute
+                    0.00%  67.440us         2  33.720us  8.1370us  59.303us  cudaDeviceSynchronize
+                    0.00%  59.749us         2  29.874us  23.872us  35.877us  cuDeviceGetName
+                    0.00%  41.699us         1  41.699us  41.699us  41.699us  cudaLaunchKernel
+                    0.00%  33.383us         1  33.383us  33.383us  33.383us  cudaMemset
+                    0.00%  22.023us         2  11.011us  4.0410us  17.982us  cudaStreamDestroy
+                    0.00%  1.8620us         4     465ns     135ns  1.0720us  cuDeviceGet
+                    0.00%  1.1170us         3     372ns     182ns     557ns  cuDeviceGetCount
+                    0.00%     496ns         2     248ns     223ns     273ns  cuDeviceGetUuid
+
+real	2m20.456s
+user	2m7.119s
+sys	0m11.027s
+
+
+Input reading done, n: 32768, m: 4, k-values: 33000000 and 33000000
+Sorted input: 63.7081
+==286== NVPROF is profiling process 286, command: ./exec input1 input2 outFile.bin
+CSR converted
+Time taken for matrix multiplication: 310.647
+Writing output
+Number of output non-zero blocks: 67108864
+Writing done
+==286== Profiling application: ./exec input1 input2 outFile.bin
+==286== Profiling result:
+            Type  Time(%)      Time     Calls       Avg       Min       Max  Name
+ GPU activities:   99.36%  306.862s         1  306.862s  306.862s  306.862s  matMulGPU(unsigned int*, unsigned int*, unsigned int*, int*, int*, int*, int*, int*, int*, int, int, int, int)
+                    0.33%  1.02598s         8  128.25ms  10.687us  466.49ms  [CUDA memcpy HtoD]
+                    0.30%  931.87ms         1  931.87ms  931.87ms  931.87ms  [CUDA memcpy DtoH]
+                    0.01%  18.447ms         1  18.447ms  18.447ms  18.447ms  [CUDA memset]
+      API calls:   99.53%  307.794s         1  307.794s  307.794s  307.794s  cudaMemcpy
+                    0.34%  1.04535s         8  130.67ms  24.050us  484.88ms  cudaMemcpyAsync
+                    0.13%  392.57ms         2  196.28ms  3.5380us  392.57ms  cudaStreamCreate
+                    0.01%  16.332ms         7  2.3331ms  6.3520us  6.3657ms  cudaFree
+                    0.00%  11.147ms         9  1.2385ms  7.4930us  4.4978ms  cudaMalloc
+                    0.00%  1.0613ms         2  530.63us  1.6300us  1.0596ms  cuDeviceGetPCIBusId
+                    0.00%  814.36us         1  814.36us  814.36us  814.36us  cudaMemset
+                    0.00%  719.74us         2  359.87us  348.62us  371.12us  cuDeviceTotalMem
+                    0.00%  581.48us       202  2.8780us     128ns  130.50us  cuDeviceGetAttribute
+                    0.00%  86.239us         2  43.119us  11.294us  74.945us  cudaDeviceSynchronize
+                    0.00%  62.307us         2  31.153us  24.757us  37.550us  cuDeviceGetName
+                    0.00%  37.457us         2  18.728us  4.0820us  33.375us  cudaStreamDestroy
+                    0.00%  33.162us         1  33.162us  33.162us  33.162us  cudaLaunchKernel
+                    0.00%  2.1860us         4     546ns     150ns  1.2830us  cuDeviceGet
+                    0.00%  1.0410us         3     347ns     172ns     565ns  cuDeviceGetCount
+                    0.00%     498ns         2     249ns     207ns     291ns  cuDeviceGetUuid
+
+real	7m7.282s
+user	6m46.856s
+sys	0m15.976s

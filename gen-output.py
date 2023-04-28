@@ -30,7 +30,7 @@ def read_matrix(filepath:str) -> List:
             y = int.from_bytes(file.read(4), byteorder="little")
             block = np.array(
                 [int.from_bytes(file.read(args.size), byteorder="little") for __ in range(m**2)],
-                dtype=np.uint32,
+                dtype=np.uint64,
             ).reshape(m, m)
             blocks.append([x, y, block])
     return n, m, k, blocks
@@ -75,6 +75,7 @@ if __name__ == "__main__":
                 continue
             # multiply the blocks and add to block3. Clip the values before adding.
             product = np.clip(block1[2] @ block2[2], a_min=0, a_max=MAX)
+            product = product.astype(np.uint32)
             # if the output matrix is all zeros.
             if not np.any(product):
                 continue
